@@ -29,7 +29,7 @@ function ImageMerge() {
   const dna = 1020200000000000000;
   const [colorUrl, setColorUrl] = useState("");
   const [cropUrl, setCropUrl] = useState("");
-  
+
   useEffect(() => {
     axios.get(baseUrl + `/farm/mint/${dna}`).then((res) => {
       setColorUrl(res.data.colorUrl);
@@ -53,6 +53,18 @@ function ImageMerge() {
     });
   }, [mergeImgSrc, img1, img2]);
 
+  
+  const handleToMerge = () => {
+    console.log('merge');
+    mergeImages([
+      { src: img1, x: 0, y: 0 },
+      { src: img2, x: 0, y: 0 },
+    ]).then((b64: any) => {
+      console.log("b64 : " + b64);
+      SetMergeImgSrc(b64);
+    });
+  };
+
   return (
     <div style={style}>
       <div>
@@ -68,6 +80,7 @@ function ImageMerge() {
       <br />
       <br />
       <br />
+      <button onClick={handleToMerge}>merge</button>
       <br />
       <div>
         merge-result : <img style={imageStyle} src={mergeImgSrc} alt="" />
